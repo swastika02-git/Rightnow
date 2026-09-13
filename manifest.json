@@ -1,0 +1,14 @@
+{
+  "name": "Know Your Rights",
+  "short_name": "KnowYourRights",
+  "description": "Fast, plain-language guidance for encounters with police or immigration officers.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#10151B",
+  "theme_color": "#10151B",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

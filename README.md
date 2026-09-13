@@ -1,0 +1,52 @@
+# Know Your Rights
+
+A fast, offline-capable web app that gives plain-language guidance for
+police, ICE/immigration, and checkpoint encounters — built for someone
+who has seconds, not minutes, to find what they need.
+
+## Problem
+
+Most know-your-rights material exists as dense PDFs or long web pages.
+In an actual encounter, nobody has time to read a page of legal text.
+This app puts the three things that matter — your rights, exact phrases
+to say, and what to do after — behind one tap, in large type, usable
+one-handed and under stress.
+
+## Core features
+
+- **Scenario-first navigation**: Police stop / ICE / Checkpoint, each one tap from the home screen.
+- **State-aware notes**: a short, state-specific addendum on identification requirements (currently CA, TX, NY, FL, IL, plus a general fallback).
+- **Scripted phrases**: short, exact sentences to say out loud, in large type.
+- **Record & alert**: one button starts an audio recording (saved locally as a downloadable file) and — if an emergency contact is saved — opens a pre-filled text message with a live location link.
+- **Installable, works offline**: a service worker caches the whole app shell, so it works with no signal after the first load.
+
+## Tech stack
+
+- Vanilla HTML / CSS / JavaScript — no framework, no build step, so it loads instantly and installs as a PWA on any phone.
+- Browser APIs: `MediaRecorder`, `navigator.geolocation`, `sms:` URI scheme for the alert flow, `localStorage` for on-device contact storage, Service Worker + Web App Manifest for offline/installable behavior.
+- No backend and no third-party data collection — everything stays on-device.
+
+## AI tool disclosure
+
+Built during the hackathon with assistance from Claude (Anthropic) for
+scaffolding the app structure, writing the plain-language rights content,
+and the visual design system. All legal content is general information
+written from well-established constitutional principles, not copied from
+any single source — it is not legal advice, and the app says so on-screen.
+
+## Running it
+
+No build step — open `index.html` in a browser, or serve the folder:
+
+```
+npx serve .
+```
+
+For the installable/offline behavior to work, it needs to be served over
+`https://` (or `localhost`) rather than opened as a raw `file://` path.
+
+## What's next
+
+- Expand state coverage and verify each state note against current law with a legal advisor before any real-world use.
+- Add a language switcher (Spanish is the clear next priority).
+- Add a "share my rights" flow so someone can quickly text this page to a friend or family member in another state.
