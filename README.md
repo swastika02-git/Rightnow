@@ -1,52 +1,101 @@
-# Know Your Rights
+# RightNow — Know Your Rights
 
-A fast, offline-capable web app that gives plain-language guidance for
-police, ICE/immigration, and checkpoint encounters — built for someone
-who has seconds, not minutes, to find what they need.
+> **“I have 10 seconds. Tell me what to do.”**
 
-## Problem
+**RightNow** is a hackathon-grade civic safety utility designed for individuals facing high-stress encounters with law enforcement, immigration officers, or checkpoints. Rather than functioning like a dense legal blog or government PDF, RightNow delivers immediate, plain-language, scannable guidance built for one-handed operation on a mobile device under pressure.
 
-Most know-your-rights material exists as dense PDFs or long web pages.
-In an actual encounter, nobody has time to read a page of legal text.
-This app puts the three things that matter — your rights, exact phrases
-to say, and what to do after — behind one tap, in large type, usable
-one-handed and under stress.
+---
 
-## Core features
+## Core Product Principles
 
-- **Scenario-first navigation**: Police stop / ICE / Checkpoint, each one tap from the home screen.
-- **State-aware notes**: a short, state-specific addendum on identification requirements (currently CA, TX, NY, FL, IL, plus a general fallback).
-- **Scripted phrases**: short, exact sentences to say out loud, in large type.
-- **Record & alert**: one button starts an audio recording (saved locally as a downloadable file) and — if an emergency contact is saved — opens a pre-filled text message with a live location link.
-- **Installable, works offline**: a service worker caches the whole app shell, so it works with no signal after the first load.
+1. **10-Second Emergency Priority**: The user never has to read a wall of text before finding what they need. Information is strictly prioritized:
+   - **RIGHT NOW (10-Second Summary)**: Immediate 3 core physical actions (`01`, `02`, `03`).
+   - **SAY THIS**: Giant, high-contrast scripted phrases with built-in speech synthesis (`Read aloud`) and 1-tap clipboard copy.
+   - **DO THIS**: Numbered physical actions + high-visibility **WHAT TO AVOID** callout.
+   - **KNOW THIS**: Contextual constitutional rights & state-specific statutory requirements.
+   - **AFTERWARD**: Documentation checklist once in a safe location.
+2. **Distinctive Civic Utility Aesthetic**: Deep plum (`#160B22`) and near-black (`#090A0F`) foundation paired with an intentional **plum → purple → magenta → hot pink** gradient palette, high-contrast typography, and restrained emergency accents.
+3. **100% On-Device & Zero Telemetry**: Stored purely in private browser `localStorage`. No cloud backends, no tracking cookies, no server uploads. Audio recordings stay on your device, and emergency SMS alerts are composed in your phone's native messaging client.
+4. **Offline First (PWA)**: Full service worker caching (`rightnow-v3`) guarantees instant performance without cellular signal or Wi-Fi.
 
-## Tech stack
+---
 
-- Vanilla HTML / CSS / JavaScript — no framework, no build step, so it loads instantly and installs as a PWA on any phone.
-- Browser APIs: `MediaRecorder`, `navigator.geolocation`, `sms:` URI scheme for the alert flow, `localStorage` for on-device contact storage, Service Worker + Web App Manifest for offline/installable behavior.
-- No backend and no third-party data collection — everything stays on-device.
+## Key Features
 
-## AI tool disclosure
+### 1. 10-Second Summary ("RIGHT NOW")
+Every encounter begins with an ultra-concise summary of the 3 most important immediate physical actions to take under stress.
 
-Built during the hackathon with assistance from Claude (Anthropic) for
-scaffolding the app structure, writing the plain-language rights content,
-and the visual design system. All legal content is general information
-written from well-established constitutional principles, not copied from
-any single source — it is not legal advice, and the app says so on-screen.
+### 2. Situation Quick-Check ("What’s Happening?")
+A 2-step triage questionnaire for users uncertain of their exact situation:
+- **Step 1: Who are you dealing with?** (Police, Immigration, Checkpoint, Security, Not sure)
+- **Step 2: What is happening?** (Questioned, Searched, Detained, ID asked, Asked to leave, Not sure)
+- **Result**: Instant scenario matching with tailored plain-language advice and direct navigation into Encounter Mode.
 
-## Running it
+### 3. Incident Vault (Private On-Device Archive)
+- **Local-First Records**: Secure on-device incident storage with support for incident type, date, time, location, audio recording references, and personal notes.
+- **Pre-Populated Demo Records**: Seeded with 3 fictional, clearly labeled sample incidents (`DEMO DATA — NOT A REAL INCIDENT`) for immediate hackathon demonstration without starting from an empty screen.
+- **Incident Detail View**: Inspect full records, edit notes inline, export/share formatted reports via clipboard, or delete records.
+- **Polished Empty State**: Gracefully handles deleting all demo records with a clean call-to-action to begin a new encounter.
 
-No build step — open `index.html` in a browser, or serve the folder:
+### 4. After-Encounter Safety Flow & Checklist
+- **“ARE YOU SAFE NOW?”**: Ending an encounter prompts an immediate safety verification modal.
+  - **YES — I'M SAFE**: Opens the post-encounter documentation checklist to record occurrences (questioned, searched, detained, ID asked, paperwork, etc.), add notes, and save directly to the Incident Vault.
+  - **I STILL NEED HELP**: Opens the Emergency Action Sheet (SOS).
 
-```
+### 5. Emergency Action Sheet (SOS)
+A persistent safety menu accessible anytime via the **SOS** button in the global topbar:
+- **Call Local Emergency Services**: Directly triggers native phone dialing based on the selected country (`112` for India/Europe/International, `911` for US/Canada, `999` for UK).
+- **Alert Trusted Contact**: Pre-fills SMS with live GPS location link.
+- **Start Audio Recording**: Immediately begins local audio capture.
+
+### 6. Evidence & Recording Mode
+- Audio recording powered by `MediaRecorder` with live elapsed timer (`00:37`).
+- **Pause & Resume** controls alongside **Stop & Save**.
+- Direct `.webm` evidence download to your device.
+- Transparent legal notice regarding public recording rights.
+
+### 7. Global Jurisdiction Engine & Confidence Ratings
+- Multi-tier hierarchy: **Country → Region/State → Scenario → Guidance**.
+- Broad coverage across:
+  - **Asia**: India (with 21 states & union territories including West Bengal, Maharashtra, Karnataka, Tamil Nadu, Delhi, etc.), Japan, South Korea, Singapore, Malaysia, Indonesia, Thailand, Philippines, Vietnam, Bangladesh, Nepal, Sri Lanka, Pakistan, China, Taiwan, Hong Kong.
+  - **North America**: United States (CA, TX, NY, FL, IL, General), Canada, Mexico.
+  - **Europe**: United Kingdom (PACE Act), Germany, France, Italy, Spain, Netherlands.
+- **Jurisdiction Confidence Badges**:
+  - `VERIFIED JURISDICTION GUIDANCE` (e.g. India CrPC/BNSS Section 41 & *D.K. Basu* guidelines; US state stop-and-identify laws).
+  - `GENERAL INFORMATION` (established constitutional protections).
+  - `NOT YET VERIFIED LOCALLY` (clear disclaimer that local statutory verification is recommended).
+
+---
+
+## Tech Stack
+
+- **Vanilla HTML5 / CSS3 / JavaScript (ES6+)**: Zero framework overhead, zero build step.
+- **Modern Web APIs**:
+  - `MediaRecorder` & `getUserMedia` (with pause/resume) for local audio evidence recording.
+  - `window.speechSynthesis` for offline-capable text-to-speech phrase reading.
+  - `navigator.geolocation` for emergency GPS coordinate resolution.
+  - `navigator.clipboard` for script and report copying.
+  - `ServiceWorker` & `Web App Manifest` for installable offline PWA capabilities.
+  - `sms:` and `tel:` URI schemes for secure native carrier communication.
+
+---
+
+## Running Locally
+
+No build step required. Open `index.html` in any browser, or serve the directory:
+
+```bash
+# Using Python
+python -m http.server 8080
+
+# Or using npx serve
 npx serve .
 ```
 
-For the installable/offline behavior to work, it needs to be served over
-`https://` (or `localhost`) rather than opened as a raw `file://` path.
+To test Service Worker caching and PWA installation, access the application via `http://localhost:8080` or an `https://` endpoint.
 
-## What's next
+---
 
-- Expand state coverage and verify each state note against current law with a legal advisor before any real-world use.
-- Add a language switcher (Spanish is the clear next priority).
-- Add a "share my rights" flow so someone can quickly text this page to a friend or family member in another state.
+## Legal Safety & Disclaimers
+
+RightNow provides general informational guidance, not formal legal advice. It does not create an attorney-client relationship. Rules regarding police stops, search consent, and identification requirements vary across state and national jurisdictions.

@@ -1,98 +1,1033 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0F1419">
-<title>Know Your Rights</title>
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090A0F">
+  <meta name="description" content="RightNow — Instant, plain-language civic safety utility for encounters with law enforcement, ICE, and checkpoints. Designed for 10-second high-stress clarity.">
+  <title>RightNow — Know Your Rights</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-<div id="app">
+  <!-- Ambient subtle visual background -->
+  <div class="ambient-glow" aria-hidden="true"></div>
 
-  <!-- SCREEN 0: HOME -->
-  <section class="screen" id="screen-home" data-active="true">
-    <header class="home-header">
-      <h1 class="wordmark">Know Your Rights</h1>
-      <p class="tagline">Fast, plain-language guidance for encounters with law enforcement or immigration officers.</p>
+  <div id="app">
+
+    <!-- Top Global Bar (Always accessible) -->
+    <header class="app-global-nav" aria-label="Global application header">
+      <div class="global-brand-row">
+        <a href="#home" class="brand-link" id="nav-brand-home" aria-label="RightNow Home">
+          <div class="brand-icon-wrap" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="M12 8v4"/>
+              <circle cx="12" cy="16" r="1" fill="currentColor"/>
+            </svg>
+          </div>
+          <div>
+            <div class="wordmark-row">
+              <span class="wordmark">RIGHTNOW</span>
+              <span class="pill-badge pill-utility">CIVIC SAFETY</span>
+            </div>
+            <p class="tagline">Know your rights. Right now.</p>
+          </div>
+        </a>
+
+        <!-- Global Action Shortcuts -->
+        <div class="global-nav-actions">
+          <button class="nav-shortcut-btn" id="btn-open-quickcheck" aria-label="Situation Quick-Check">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <span class="shortcut-text">Quick Check</span>
+          </button>
+
+          <button class="nav-shortcut-btn" id="btn-open-vault" aria-label="Incident Vault">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+            <span class="shortcut-text">Vault</span>
+            <span class="vault-count-badge" id="nav-vault-count">3</span>
+          </button>
+
+          <button class="nav-shortcut-btn emergency-sos-btn" id="btn-trigger-sos" aria-label="Emergency Action Sheet">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <span>SOS</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Global Jurisdiction Bar -->
+      <div class="jurisdiction-bar">
+        <div class="jurisdiction-label-wrap">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          <span>Jurisdiction</span>
+        </div>
+
+        <div class="jurisdiction-selects-row">
+          <div class="select-wrapper">
+            <select id="country-select" aria-label="Select Country"></select>
+          </div>
+          <div class="select-wrapper">
+            <select id="region-select" aria-label="Select Region or State"></select>
+          </div>
+        </div>
+
+        <div class="offline-status-chip" title="Core guidance cached and available without internet">
+          <span class="offline-dot" aria-hidden="true"></span>
+          <span>OFFLINE READY</span>
+        </div>
+      </div>
     </header>
 
-    <div class="state-picker">
-      <label for="state-select">Your state</label>
-      <select id="state-select"></select>
+    <!-- ==================== SCREEN 0: HOME ==================== -->
+    <main class="screen" id="screen-home" data-active="true">
+      
+      <!-- Hero Principle Card -->
+      <section class="hero-card">
+        <div class="hero-content">
+          <span class="hero-eyebrow">10-SECOND EMERGENCY PRINCIPLE</span>
+          <h1 class="hero-title">“I have 10 seconds.<br>Tell me what to do.”</h1>
+          <p class="hero-desc">Fast, plain-language guidance when stopped by law enforcement or immigration officers. Zero tracking. 100% on-device &amp; offline capable.</p>
+        </div>
+      </section>
+
+      <!-- Quick Check Banner Card -->
+      <section class="quick-check-banner-card">
+        <div class="qc-banner-content">
+          <div class="qc-icon-wrap" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+            </svg>
+          </div>
+          <div>
+            <span class="qc-banner-title">Not sure which situation applies?</span>
+            <p class="qc-banner-sub">Answer 2 simple questions to find the right guidance immediately.</p>
+          </div>
+        </div>
+        <button class="btn-qc-launch" id="btn-home-quickcheck">
+          <span>Start Quick-Check</span>
+          <span aria-hidden="true">&rarr;</span>
+        </button>
+      </section>
+
+      <!-- Trusted Contact Status Card -->
+      <section class="contact-status-card" id="home-contact-card">
+        <div class="contact-status-left">
+          <div class="contact-icon-bubble" id="contact-status-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <div>
+            <span class="contact-status-label" id="contact-status-title">Trusted Emergency Contact</span>
+            <p class="contact-status-sub" id="contact-status-sub">Set up 1-tap SMS &amp; GPS location alert</p>
+          </div>
+        </div>
+        <button class="btn-secondary-pill" id="btn-open-contacts" aria-label="Configure trusted contact">
+          <span id="contact-status-btn-text">Configure</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </button>
+      </section>
+
+      <!-- Section: WHAT'S HAPPENING? -->
+      <section class="scenarios-section" aria-labelledby="scenarios-heading">
+        <div class="section-title-row">
+          <h2 id="scenarios-heading" class="section-title">WHAT'S HAPPENING?</h2>
+          <span class="section-badge">SELECT ENCOUNTER</span>
+        </div>
+
+        <div class="scenario-grid">
+          
+          <!-- Scenario 1: Police Stop -->
+          <button class="scenario-card" data-scenario="police" aria-label="Select Police Stop encounter">
+            <div class="scenario-header-row">
+              <div class="scenario-icon-box police-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  <circle cx="12" cy="11" r="3"/>
+                </svg>
+              </div>
+              <span class="scenario-badge">Traffic • Street • Door</span>
+            </div>
+            <div class="scenario-body">
+              <h3 class="scenario-title">Police Stop</h3>
+              <p class="scenario-lead">“Know what to say. Know what to do.”</p>
+              <p class="scenario-sub">Traffic stop, street questioning, or police at your door.</p>
+            </div>
+            <div class="scenario-footer">
+              <span class="btn-action-text">Enter Encounter Mode</span>
+              <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+            </div>
+          </button>
+
+          <!-- Scenario 2: ICE / Immigration -->
+          <button class="scenario-card" data-scenario="ice" aria-label="Select ICE Immigration encounter">
+            <div class="scenario-header-row">
+              <div class="scenario-icon-box ice-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </div>
+              <span class="scenario-badge">Home • Workplace • Public</span>
+            </div>
+            <div class="scenario-body">
+              <h3 class="scenario-title">ICE / Immigration</h3>
+              <p class="scenario-lead">“Do not open the door without a judge's warrant.”</p>
+              <p class="scenario-sub">Home knock, workplace, or public immigration encounter.</p>
+            </div>
+            <div class="scenario-footer">
+              <span class="btn-action-text">Enter Encounter Mode</span>
+              <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+            </div>
+          </button>
+
+          <!-- Scenario 3: Checkpoint -->
+          <button class="scenario-card" data-scenario="checkpoint" aria-label="Select Checkpoint encounter">
+            <div class="scenario-header-row">
+              <div class="scenario-icon-box checkpoint-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+                </svg>
+              </div>
+              <span class="scenario-badge">Sobriety • Border • License</span>
+            </div>
+            <div class="scenario-body">
+              <h3 class="scenario-title">Checkpoint</h3>
+              <p class="scenario-lead">“Provide required credentials. Decline searches.”</p>
+              <p class="scenario-sub">Immigration checkpoint or vehicle sobriety stop.</p>
+            </div>
+            <div class="scenario-footer">
+              <span class="btn-action-text">Enter Encounter Mode</span>
+              <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+            </div>
+          </button>
+
+        </div>
+      </section>
+
+      <!-- Incident Vault Preview Link Card -->
+      <section class="home-vault-card">
+        <div class="home-vault-left">
+          <div class="vault-icon-bubble" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="vault-title-row">
+              <h3 class="vault-card-heading">Incident Vault</h3>
+              <span class="demo-seed-badge">3 SEEDED RECORDS</span>
+            </div>
+            <p class="vault-card-sub">Private, on-device documentation archive for past encounters and notes.</p>
+          </div>
+        </div>
+        <button class="btn-secondary-pill" id="btn-home-open-vault">
+          <span>Open Vault</span>
+          <span aria-hidden="true">&rarr;</span>
+        </button>
+      </section>
+
+      <!-- Safety & Privacy Guarantee Footer -->
+      <footer class="home-footer">
+        <div class="privacy-callout">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          <span><strong>Privacy First:</strong> No analytics. No cookies. Audio, notes &amp; contacts never leave your device.</span>
+        </div>
+        <p class="disclaimer-text">
+          RightNow provides general informational guidance, not legal advice. Rules vary by state and national jurisdiction. In a serious encounter, request a licensed attorney.
+        </p>
+      </footer>
+
+    </main>
+
+    <!-- ==================== SCREEN 1: ENCOUNTER MODE ==================== -->
+    <main class="screen" id="screen-encounter">
+      
+      <!-- Top High-Focus Header -->
+      <header class="encounter-header">
+        <div class="encounter-status-bar">
+          <div class="encounter-pulse-tag">
+            <span class="pulse-indicator" aria-hidden="true"></span>
+            <span class="pulse-text" id="encounter-badge-text">ENCOUNTER ACTIVE</span>
+          </div>
+          <button class="btn-end-encounter" id="btn-end-encounter" aria-label="End encounter">
+            <span>END ENCOUNTER</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="encounter-title-block">
+          <span class="encounter-label-sub">CURRENT SITUATION</span>
+          <h1 class="encounter-headline" id="encounter-headline">YOU ARE IN A POLICE STOP</h1>
+          <div class="encounter-meta-row">
+            <span class="jurisdiction-chip" id="encounter-jurisdiction-chip">Jurisdiction: California</span>
+            <span class="confidence-badge-chip" id="encounter-confidence-badge">VERIFIED JURISDICTION GUIDANCE</span>
+            <span class="offline-ready-chip">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              Offline Ready
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <!-- 2. "10-SECOND SUMMARY" (RIGHT NOW) -->
+      <section class="ten-second-summary-card" aria-label="10-second immediate action summary">
+        <div class="summary-card-header">
+          <div class="summary-tag-wrap">
+            <span class="summary-flash-tag">RIGHT NOW</span>
+            <h2 class="summary-card-title">10-Second Summary</h2>
+          </div>
+          <span class="summary-hint">If you only have 10 seconds:</span>
+        </div>
+        <div class="summary-steps-grid" id="encounter-summary-steps">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </section>
+
+      <!-- Emergency Utility Action Bar (Prominent inside Encounter) -->
+      <section class="encounter-emergency-bar" aria-label="Emergency actions">
+        <div class="emergency-action-grid">
+          
+          <!-- Alert Contact Button -->
+          <button class="emergency-cta-btn alert-contact-btn" id="btn-encounter-alert" aria-label="Alert trusted contact via SMS with location">
+            <div class="cta-icon-wrap" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+            </div>
+            <div class="cta-text-group">
+              <span class="cta-primary-title">ALERT TRUSTED CONTACT</span>
+              <span class="cta-secondary-sub">Opens pre-filled SMS with GPS link</span>
+            </div>
+          </button>
+
+          <!-- Record Audio Button (With Pause/Resume) -->
+          <div class="record-button-container">
+            <button class="emergency-cta-btn record-audio-btn" id="btn-encounter-record" aria-label="Start local audio recording">
+              <div class="cta-icon-wrap record-indicator-wrap" aria-hidden="true">
+                <span class="record-dot" id="record-dot"></span>
+                <svg id="mic-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                  <line x1="12" y1="19" x2="12" y2="23"/>
+                  <line x1="8" y1="23" x2="16" y2="23"/>
+                </svg>
+              </div>
+              <div class="cta-text-group">
+                <span class="cta-primary-title" id="record-btn-title">START RECORDING</span>
+                <span class="cta-secondary-sub" id="record-btn-sub">Saves evidence file to device</span>
+              </div>
+              <span class="record-timer" id="record-timer" hidden>00:00</span>
+            </button>
+
+            <!-- Recording Sub-controls (Pause & Save) -->
+            <div class="recording-active-controls" id="recording-subcontrols" hidden>
+              <button class="record-sub-btn" id="btn-record-pause" aria-label="Pause or resume audio recording">
+                <span id="pause-btn-label">Pause</span>
+              </button>
+              <button class="record-sub-btn record-stop-btn" id="btn-record-stop" aria-label="Stop recording and save file">
+                <span>Stop &amp; Save</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+        
+        <!-- Live status feedback for recording/alerting -->
+        <div class="emergency-status-callout" id="emergency-status-msg" role="status" aria-live="polite"></div>
+
+        <!-- Recording Legal Notice -->
+        <p class="recording-legal-notice">
+          <strong>Recording Rights:</strong> In public spaces, you generally have a legal right to record law enforcement openly. Keep hands visible and do not physically obstruct officers.
+        </p>
+      </section>
+
+      <!-- SECTION 1: SAY THIS (Primary 10-Second Priority) -->
+      <section class="encounter-section priority-say-section" aria-labelledby="say-heading">
+        <div class="section-label-header">
+          <div class="label-with-icon">
+            <span class="tag-pill tag-magenta">PRIORITY 01</span>
+            <h2 id="say-heading" class="priority-section-title">SAY THIS</h2>
+          </div>
+          <span class="priority-note">Say out loud in a calm, clear voice</span>
+        </div>
+
+        <!-- Script phrase switcher pills -->
+        <div class="phrase-switcher-scroller" id="phrase-switcher-list" role="tablist" aria-label="Phrases to say">
+          <!-- Populated dynamically via JS -->
+        </div>
+
+        <!-- Giant Scannable Script Display Card -->
+        <article class="script-display-card" id="script-card">
+          <div class="script-quote-mark" aria-hidden="true">“</div>
+          <p class="script-main-text" id="script-main-text">Am I free to go, or am I being detained?</p>
+          <p class="script-context" id="script-context">Clarifies immediately whether you are legally required to stay.</p>
+          
+          <!-- Script Utility Controls -->
+          <div class="script-controls-bar">
+            <button class="script-tool-btn" id="btn-copy-script" aria-label="Copy scripted phrase to clipboard">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              <span id="copy-btn-label">Copy phrase</span>
+            </button>
+
+            <button class="script-tool-btn" id="btn-speak-script" aria-label="Read scripted phrase aloud using speech synthesis">
+              <svg id="speak-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+              </svg>
+              <span id="speak-btn-label">Read aloud</span>
+            </button>
+
+            <div class="script-nav-arrows">
+              <button class="nav-arrow-btn" id="btn-prev-phrase" aria-label="Previous phrase">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="15 18 9 12 15 6"/>
+                </svg>
+              </button>
+              <span class="phrase-index-indicator" id="phrase-index-indicator">1/5</span>
+              <button class="nav-arrow-btn" id="btn-next-phrase" aria-label="Next phrase">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="9 18 15 12 9 6"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Live feedback badge for copy action -->
+          <div class="toast-feedback" id="script-toast" role="status" aria-live="polite" hidden>Copied to clipboard</div>
+        </article>
+      </section>
+
+      <!-- SECTION 2: DO THIS (Action Sequence) -->
+      <section class="encounter-section" aria-labelledby="do-heading">
+        <div class="section-label-header">
+          <div class="label-with-icon">
+            <span class="tag-pill tag-purple">PRIORITY 02</span>
+            <h2 id="do-heading" class="section-title">DO THIS</h2>
+          </div>
+          <span class="priority-note">Follow immediately in this order</span>
+        </div>
+
+        <!-- Numbered Step Sequence -->
+        <div class="do-steps-list" id="encounter-do-list">
+          <!-- Populated dynamically via JS -->
+        </div>
+
+        <!-- WHAT TO AVOID CALLOUT -->
+        <article class="avoid-card" aria-label="Things to avoid doing during this encounter">
+          <div class="avoid-header">
+            <div class="avoid-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+            </div>
+            <h3 class="avoid-title">WHAT TO AVOID</h3>
+          </div>
+          <ul class="avoid-list" id="encounter-avoid-list">
+            <!-- Populated dynamically via JS -->
+          </ul>
+        </article>
+      </section>
+
+      <!-- SECTION 3: KNOW THIS (Contextual Rights & State Law) -->
+      <section class="encounter-section" aria-labelledby="know-heading">
+        <div class="section-label-header">
+          <div class="label-with-icon">
+            <span class="tag-pill tag-neutral">CONTEXT</span>
+            <h2 id="know-heading" class="section-title">KNOW THIS</h2>
+          </div>
+          <span class="priority-note">Constitutional protections &amp; statutory rules</span>
+        </div>
+
+        <!-- State/National Specific ID Rule Highlight -->
+        <article class="state-rule-card" id="encounter-state-card" aria-label="Jurisdiction identification requirements">
+          <div class="state-rule-header">
+            <span class="state-badge-chip" id="state-rule-badge">CALIFORNIA LAW</span>
+            <span class="state-rule-subtitle" id="state-rule-confidence-text">Verified Statutory Rule</span>
+          </div>
+          <p class="state-rule-text" id="encounter-state-note"></p>
+        </article>
+
+        <!-- Accordion of Essential Rights -->
+        <div class="rights-accordion-list" id="encounter-rights-list">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </section>
+
+      <!-- SECTION 4: WHAT TO DO AFTERWARD -->
+      <section class="encounter-section" aria-labelledby="after-heading">
+        <div class="section-label-header">
+          <div class="label-with-icon">
+            <span class="tag-pill tag-neutral">AFTERMATH</span>
+            <h2 id="after-heading" class="section-title">AFTERWARD</h2>
+          </div>
+          <span class="priority-note">Once you are in a safe location</span>
+        </div>
+
+        <div class="after-steps-grid" id="encounter-after-list">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </section>
+
+      <!-- Bottom Sticky Encounter Exit Bar -->
+      <div class="sticky-exit-bar">
+        <button class="sticky-end-btn" id="btn-sticky-end">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+          <span>End Encounter &amp; Review Safety</span>
+        </button>
+      </div>
+
+    </main>
+
+    <!-- ==================== SCREEN 2: SITUATION QUICK-CHECK ==================== -->
+    <main class="screen" id="screen-quick-check">
+      <header class="sub-screen-header">
+        <button class="btn-back-circle" data-back="screen-home" aria-label="Return to home">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+        <div>
+          <span class="eyebrow-text">SITUATION TRIAGE</span>
+          <h1 class="sub-screen-title">What’s Happening?</h1>
+        </div>
+      </header>
+
+      <div class="quickcheck-container">
+        
+        <!-- Step 1: Who are you dealing with? -->
+        <section class="qc-step-block" id="qc-step-1">
+          <div class="qc-step-indicator">
+            <span class="step-num">STEP 1 OF 2</span>
+            <h2 class="qc-question">Who are you dealing with?</h2>
+          </div>
+          <div class="qc-options-grid" id="qc-who-options">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </section>
+
+        <!-- Step 2: What is happening? -->
+        <section class="qc-step-block" id="qc-step-2" hidden>
+          <div class="qc-step-indicator">
+            <span class="step-num">STEP 2 OF 2</span>
+            <h2 class="qc-question">What is happening right now?</h2>
+          </div>
+          <div class="qc-options-grid" id="qc-what-options">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </section>
+
+        <!-- Step 3: Triage Result -->
+        <section class="qc-result-block" id="qc-result-block" hidden>
+          <div class="qc-result-card">
+            <div class="qc-result-badge-row">
+              <span class="tag-pill tag-magenta">RECOMMENDED GUIDANCE</span>
+              <span class="confidence-badge-chip" id="qc-confidence-chip">VERIFIED GUIDANCE</span>
+            </div>
+            <h3 class="qc-matched-title" id="qc-matched-title">Police Stop</h3>
+            <p class="qc-matched-reason" id="qc-matched-reason">Matched based on interacting with patrol officers.</p>
+            <div class="qc-advice-box">
+              <p id="qc-advice-text">Keep hands visible. Ask: “Am I being detained, or am I free to go?” State non-consent to searches.</p>
+            </div>
+            <div class="qc-actions-row">
+              <button class="btn-primary-action" id="btn-qc-enter-encounter">
+                <span>Enter This Guidance Now</span>
+                <span aria-hidden="true">&rarr;</span>
+              </button>
+              <button class="btn-text-action" id="btn-qc-restart">Start over</button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- ==================== SCREEN 3: INCIDENT VAULT ==================== -->
+    <main class="screen" id="screen-vault">
+      <header class="sub-screen-header">
+        <button class="btn-back-circle" data-back="screen-home" aria-label="Return to home">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+        <div>
+          <span class="eyebrow-text">PRIVATE STORAGE</span>
+          <h1 class="sub-screen-title">Incident Vault</h1>
+        </div>
+      </header>
+
+      <!-- Vault Security Guarantee Notice -->
+      <section class="vault-security-notice">
+        <div class="sec-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <p><strong>Private On-Device Records:</strong> All documented incidents and notes are saved exclusively in your browser's local storage. No records are uploaded to any server or cloud database.</p>
+      </section>
+
+      <!-- Vault Filter Tabs -->
+      <div class="vault-filter-tabs" role="tablist" aria-label="Incident vault filters">
+        <button class="v-filter-btn" data-filter="all" data-active="true">All Records (<span id="count-all">3</span>)</button>
+        <button class="v-filter-btn" data-filter="user">My Incidents (<span id="count-user">0</span>)</button>
+        <button class="v-filter-btn" data-filter="demo">Demo Records (<span id="count-demo">3</span>)</button>
+      </div>
+
+      <!-- Incident Cards List -->
+      <div class="vault-incidents-list" id="vault-incidents-list">
+        <!-- Populated dynamically via JS -->
+      </div>
+
+      <!-- Empty State -->
+      <div class="vault-empty-state" id="vault-empty-state" hidden>
+        <div class="empty-icon-wrap" aria-hidden="true">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            <line x1="12" y1="11" x2="12" y2="17"/>
+            <line x1="9" y1="14" x2="15" y2="14"/>
+          </svg>
+        </div>
+        <h3 class="empty-title">YOUR VAULT IS EMPTY</h3>
+        <p class="empty-desc">Your saved incidents and documented encounters will appear here. No personal reports exist yet.</p>
+        <button class="btn-secondary-pill" id="btn-empty-start-encounter">
+          <span>Start an Encounter</span>
+          <span aria-hidden="true">&rarr;</span>
+        </button>
+      </div>
+    </main>
+
+    <!-- ==================== SCREEN 4: INCIDENT DETAIL VIEW ==================== -->
+    <main class="screen" id="screen-incident-detail">
+      <header class="sub-screen-header">
+        <button class="btn-back-circle" data-back="screen-vault" aria-label="Return to Incident Vault">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+        <div>
+          <span class="eyebrow-text" id="detail-eyebrow">INCIDENT RECORD</span>
+          <h1 class="sub-screen-title" id="detail-title">Police Stop</h1>
+        </div>
+      </header>
+
+      <article class="incident-detail-card">
+        <div class="detail-header-row">
+          <span class="detail-type-badge" id="detail-type-badge">Police Stop</span>
+          <span class="detail-demo-tag" id="detail-demo-tag" hidden>DEMO DATA — NOT A REAL INCIDENT</span>
+        </div>
+
+        <div class="detail-meta-grid">
+          <div class="meta-item">
+            <span class="meta-label">DATE &amp; TIME</span>
+            <span class="meta-val" id="detail-date-time">September 12, 2026 • 7:42 PM</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">LOCATION</span>
+            <span class="meta-val" id="detail-location">Sample Location</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">STATUS</span>
+            <span class="meta-val" id="detail-status">Documented</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">AUDIO EVIDENCE</span>
+            <span class="meta-val" id="detail-duration">03:18 recorded</span>
+          </div>
+        </div>
+
+        <!-- Recording section -->
+        <div class="detail-section">
+          <h3 class="detail-sec-heading">RECORDING</h3>
+          <div class="recording-preview-box" id="detail-recording-box">
+            <div class="rec-preview-left">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              </svg>
+              <span id="detail-recording-label">Demo recording preview (03:18) — Non-functional sample state</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Documented actions / tags -->
+        <div class="detail-section" id="detail-tags-section">
+          <h3 class="detail-sec-heading">DOCUMENTED OCCURRENCES</h3>
+          <div class="detail-tags-list" id="detail-tags-list"></div>
+        </div>
+
+        <!-- Notes section -->
+        <div class="detail-section">
+          <div class="notes-header-row">
+            <h3 class="detail-sec-heading">INCIDENT NOTES</h3>
+            <button class="btn-text-action" id="btn-detail-edit-notes">Edit Notes</button>
+          </div>
+          <div class="detail-notes-view" id="detail-notes-text"></div>
+          
+          <!-- Inline notes editing container -->
+          <div class="detail-notes-editor" id="detail-notes-editor" hidden>
+            <textarea id="detail-notes-input" class="notes-textarea" rows="4"></textarea>
+            <div class="editor-actions-row">
+              <button class="btn-save-inline" id="btn-save-detail-notes">Save Notes</button>
+              <button class="btn-cancel-inline" id="btn-cancel-detail-notes">Cancel</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Incident Actions -->
+        <div class="detail-actions-footer">
+          <button class="btn-detail-export" id="btn-detail-export">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+              <polyline points="16 6 12 2 8 6"/>
+              <line x1="12" y1="2" x2="12" y2="15"/>
+            </svg>
+            <span>Share / Export Report</span>
+          </button>
+          <button class="btn-detail-delete" id="btn-detail-delete">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+            </svg>
+            <span>Delete Incident</span>
+          </button>
+        </div>
+
+        <div class="export-feedback" id="detail-toast" role="status" aria-live="polite" hidden>Report copied to clipboard.</div>
+      </article>
+    </main>
+
+    <!-- ==================== SCREEN 5: POST-ENCOUNTER CHECKLIST ==================== -->
+    <main class="screen" id="screen-post-encounter">
+      <header class="sub-screen-header">
+        <button class="btn-back-circle" data-back="screen-home" aria-label="Return to home">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+        <div>
+          <span class="eyebrow-text">INCIDENT DOCUMENTATION</span>
+          <h1 class="sub-screen-title">Document What Happened</h1>
+        </div>
+      </header>
+
+      <form id="post-encounter-form" class="post-encounter-container" novalidate>
+        
+        <p class="post-encounter-intro">
+          Document key details while memories are fresh. This record will be saved strictly on this device in your <strong>Incident Vault</strong> for legal review or personal record.
+        </p>
+
+        <!-- Checklist of Occurrences -->
+        <fieldset class="checklist-fieldset">
+          <legend class="fieldset-legend">WHAT HAPPENED DURING THIS ENCOUNTER?</legend>
+          
+          <div class="checkbox-options-grid">
+            <label class="custom-check-item">
+              <input type="checkbox" name="occurrence" value="I was questioned">
+              <span class="check-box-custom" aria-hidden="true"></span>
+              <span class="check-text">I was questioned</span>
+            </label>
+
+            <label class="custom-check-item">
+              <input type="checkbox" name="occurrence" value="I was searched">
+              <span class="check-box-custom" aria-hidden="true"></span>
+              <span class="check-text">I was searched</span>
+            </label>
+
+            <label class="custom-check-item">
+              <input type="checkbox" name="occurrence" value="I was detained">
+              <span class="check-box-custom" aria-hidden="true"></span>
+              <span class="check-text">I was detained</span>
+            </label>
+
+            <label class="custom-check-item">
+              <input type="checkbox" name="occurrence" value="I was asked for identification">
+              <span class="check-box-custom" aria-hidden="true"></span>
+              <span class="check-text">I was asked for identification</span>
+            </label>
+
+            <label class="custom-check-item">
+              <input type="checkbox" name="occurrence" value="I was given paperwork">
+              <span class="check-box-custom" aria-hidden="true"></span>
+              <span class="check-text">I was given paperwork / ticket</span>
+            </label>
+
+            <label class="custom-check-item">
+              <input type="checkbox" name="occurrence" value="I was asked to leave">
+              <span class="check-box-custom" aria-hidden="true"></span>
+              <span class="check-text">I was asked to leave</span>
+            </label>
+
+            <label class="custom-check-item">
+              <input type="checkbox" name="occurrence" value="Other">
+              <span class="check-box-custom" aria-hidden="true"></span>
+              <span class="check-text">Other occurrences</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Location & Notes -->
+        <div class="form-field-group">
+          <label for="post-location-input" class="field-label">Approximate Location (Optional)</label>
+          <input type="text" id="post-location-input" class="field-input" placeholder="e.g. 5th St &amp; Market, or GPS coordinates">
+        </div>
+
+        <div class="form-field-group">
+          <label for="post-notes-input" class="field-label">Add Notes / What Do You Remember?</label>
+          <textarea 
+            id="post-notes-input" 
+            class="notes-textarea" 
+            rows="4" 
+            placeholder="Officer names, badge numbers, patrol vehicle numbers, statements made, witness contacts..."
+          ></textarea>
+        </div>
+
+        <!-- Associated Audio Indicator -->
+        <div class="associated-recording-callout" id="post-rec-indicator" hidden>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          </svg>
+          <span id="post-rec-text">Associated audio recording file will be linked to this incident.</span>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions-stacked">
+          <button type="submit" class="btn-primary-action">
+            <span>Save to Incident Vault</span>
+            <span aria-hidden="true">&rarr;</span>
+          </button>
+          <button type="button" class="btn-text-action" id="btn-skip-post-encounter">Skip &amp; return to home</button>
+        </div>
+
+      </form>
+    </main>
+
+    <!-- ==================== SCREEN 6: TRUSTED CONTACT SETUP ==================== -->
+    <main class="screen" id="screen-contacts">
+      <header class="sub-screen-header">
+        <button class="btn-back-circle" data-back="screen-home" aria-label="Return to home screen">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+        <div>
+          <span class="eyebrow-text">SAFETY PROTOCOL</span>
+          <h1 class="sub-screen-title">Trusted Contact</h1>
+        </div>
+      </header>
+
+      <section class="contacts-explainer-card">
+        <div class="explainer-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <polyline points="9 12 11 14 15 10"/>
+          </svg>
+        </div>
+        <div class="explainer-text">
+          <h2 class="explainer-heading">How 1-Tap Alert Works</h2>
+          <p>
+            When you tap <strong>ALERT TRUSTED CONTACT</strong> in an encounter, RightNow retrieves your GPS coordinates and pre-fills an emergency text message in your phone's SMS app.
+          </p>
+          <p class="explainer-note">
+            <strong>100% Private:</strong> Your contact is stored locally in your browser's private storage. No servers, no accounts, and no data leaves your phone without your explicit tap to send.
+          </p>
+        </div>
+      </section>
+
+      <!-- Contact Setup Form -->
+      <form id="contact-form" class="contact-setup-form" novalidate>
+        <div class="form-field-group">
+          <label for="contact-name" class="field-label">Contact Name or Relation</label>
+          <input 
+            type="text" 
+            id="contact-name" 
+            class="field-input" 
+            placeholder="e.g. Mom, Jordan, Legal Aid Hotline"
+            autocomplete="name"
+            required
+          >
+        </div>
+
+        <div class="form-field-group">
+          <label for="contact-phone" class="field-label">Mobile Phone Number</label>
+          <input 
+            type="tel" 
+            id="contact-phone" 
+            class="field-input" 
+            placeholder="e.g. +1 555-123-4567 or +91 98765 43210"
+            autocomplete="tel"
+            required
+          >
+          <span class="field-hint">Include country code for international numbers. Must be capable of standard SMS.</span>
+        </div>
+
+        <!-- Live Message Preview -->
+        <div class="sms-preview-card">
+          <div class="preview-header">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            <span>PREVIEW OF OUTGOING SMS</span>
+          </div>
+          <p class="preview-body" id="sms-preview-text">
+            “I need help. I'm in a police stop right now. My location: https://maps.google.com/?q=...”
+          </p>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-save-contact">
+            <span>Save Trusted Contact</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </button>
+          
+          <button type="button" class="btn-clear-contact" id="btn-clear-contact">Remove Contact</button>
+        </div>
+
+        <div class="save-toast" id="save-confirm" role="status" aria-live="polite" hidden>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          <span>Trusted contact saved securely on device.</span>
+        </div>
+      </form>
+
+    </main>
+
+  </div><!-- /#app -->
+
+  <!-- ==================== MODAL 1: ARE YOU SAFE NOW? ==================== -->
+  <div class="safety-modal-backdrop" id="modal-after-encounter" role="dialog" aria-modal="true" aria-labelledby="safety-modal-title" hidden>
+    <div class="safety-modal-card">
+      <div class="safety-modal-icon" aria-hidden="true">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <polyline points="9 12 11 14 15 10"/>
+        </svg>
+      </div>
+      <h2 class="safety-modal-heading" id="safety-modal-title">ARE YOU SAFE NOW?</h2>
+      <p class="safety-modal-desc">The encounter has ended. Confirm your immediate safety status before continuing.</p>
+      
+      <div class="safety-modal-actions">
+        <button class="btn-safety-confirm" id="btn-safe-yes">
+          <span class="btn-main-label">YES — I’M SAFE</span>
+          <span class="btn-sub-label">Open post-encounter documentation checklist</span>
+        </button>
+        
+        <button class="btn-safety-alert" id="btn-safe-help">
+          <span class="btn-main-label">I STILL NEED HELP</span>
+          <span class="btn-sub-label">Access emergency calls &amp; safety contacts</span>
+        </button>
+      </div>
     </div>
+  </div>
 
-    <div class="scenario-grid">
-      <button class="scenario-card" data-scenario="police">
-        <span class="scenario-icon" aria-hidden="true">&#128737;</span>
-        <span class="scenario-label">Police stop</span>
-        <span class="scenario-sub">Traffic stop, street stop, or police at your door</span>
-      </button>
-      <button class="scenario-card" data-scenario="ice">
-        <span class="scenario-icon" aria-hidden="true">&#128274;</span>
-        <span class="scenario-label">ICE / immigration</span>
-        <span class="scenario-sub">Home, workplace, or public encounter</span>
-      </button>
-      <button class="scenario-card" data-scenario="checkpoint">
-        <span class="scenario-icon" aria-hidden="true">&#128737;</span>
-        <span class="scenario-label">Checkpoint</span>
-        <span class="scenario-sub">Immigration or sobriety checkpoint</span>
-      </button>
+  <!-- ==================== MODAL 2: EMERGENCY ACTION SHEET (SOS) ==================== -->
+  <div class="sheet-backdrop" id="sheet-emergency" role="dialog" aria-modal="true" aria-labelledby="sos-sheet-title" hidden>
+    <div class="emergency-sheet-panel">
+      <div class="sheet-handle" aria-hidden="true"></div>
+      
+      <div class="sheet-header">
+        <div class="sos-icon-wrap" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+        </div>
+        <div>
+          <h2 class="sheet-title" id="sos-sheet-title">I NEED HELP</h2>
+          <p class="sheet-sub">Emergency safety actions for immediate danger.</p>
+        </div>
+        <button class="sheet-close-btn" id="btn-close-sos" aria-label="Close emergency sheet">&times;</button>
+      </div>
+
+      <div class="sheet-actions-list">
+        <!-- Call Emergency Services -->
+        <a href="tel:112" class="sheet-action-item call-emergency-item" id="sos-call-emergency">
+          <div class="sheet-item-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <div class="sheet-item-text">
+            <span class="item-primary" id="sos-call-label">CALL EMERGENCY SERVICES (112)</span>
+            <span class="item-secondary">Dial local emergency dispatch directly</span>
+          </div>
+        </a>
+
+        <!-- Alert Trusted Contact -->
+        <button class="sheet-action-item" id="sos-alert-contact">
+          <div class="sheet-item-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <div class="sheet-item-text">
+            <span class="item-primary">ALERT TRUSTED CONTACT</span>
+            <span class="item-secondary">Prepare SMS with live GPS location</span>
+          </div>
+        </button>
+
+        <!-- Start Audio Recording -->
+        <button class="sheet-action-item" id="sos-start-record">
+          <div class="sheet-item-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            </svg>
+          </div>
+          <div class="sheet-item-text">
+            <span class="item-primary">START LOCAL AUDIO RECORDING</span>
+            <span class="item-secondary">Capture audio locally on your device</span>
+          </div>
+        </button>
+      </div>
+
+      <button class="btn-sheet-dismiss" id="btn-dismiss-sos">RETURN TO GUIDANCE</button>
     </div>
+  </div>
 
-    <button class="ghost-link" id="btn-open-contacts">Set up my emergency contact &rsaquo;</button>
-
-    <p class="disclaimer">This is general information, not legal advice. Laws vary and change &mdash; confirm details for your situation with a local attorney or legal aid organization.</p>
-  </section>
-
-  <!-- SCREEN 1: RIGHTS -->
-  <section class="screen" id="screen-rights">
-    <header class="rights-header">
-      <button class="back-btn" data-back="screen-home" aria-label="Back">&larr;</button>
-      <h2 id="rights-title">Rights</h2>
-    </header>
-
-    <div class="record-bar">
-      <button class="record-btn" id="btn-record">
-        <span class="record-dot"></span>
-        <span id="record-label">Start recording &amp; alert contact</span>
-      </button>
-      <p class="record-status" id="record-status"></p>
-    </div>
-
-    <nav class="tabs" id="rights-tabs">
-      <button class="tab" data-tab="rights" data-active="true">Your rights</button>
-      <button class="tab" data-tab="phrases">What to say</button>
-      <button class="tab" data-tab="after">After</button>
-    </nav>
-
-    <div class="tab-panel" id="panel-rights"></div>
-    <div class="tab-panel" id="panel-phrases" hidden></div>
-    <div class="tab-panel" id="panel-after" hidden></div>
-  </section>
-
-  <!-- SCREEN 2: CONTACTS -->
-  <section class="screen" id="screen-contacts">
-    <header class="rights-header">
-      <button class="back-btn" data-back="screen-home" aria-label="Back">&larr;</button>
-      <h2>Emergency contact</h2>
-    </header>
-    <p class="panel-intro">Saved on this device only. When you start recording, we'll try to text this person your location.</p>
-    <form id="contact-form">
-      <label for="contact-name">Name</label>
-      <input type="text" id="contact-name" placeholder="e.g. Mom, Jordan, my attorney" autocomplete="off">
-      <label for="contact-phone">Phone number</label>
-      <input type="tel" id="contact-phone" placeholder="e.g. 555-123-4567" autocomplete="off">
-      <button type="submit" class="primary-btn">Save contact</button>
-    </form>
-    <p class="save-confirm" id="save-confirm" hidden>Saved.</p>
-  </section>
-
-</div>
-
-<script src="js/data.js"></script>
-<script src="js/app.js"></script>
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
