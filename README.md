@@ -1,50 +1,124 @@
-# Know Your Rights
+# RightNOW
 
-A fast, offline-capable web app that gives plain-language guidance for
-police, ICE/immigration, and checkpoint encounters — built for someone
-who has seconds, not minutes, to find what they need.
+A fast, offline-capable web app that provides plain-language rights guidance for police, immigration, and checkpoint encounters — designed for people who have **seconds, not minutes**, to find what they need.
 
-## Problem
-
-Most know-your-rights material exists as dense PDFs or long web pages.
-In an actual encounter, nobody has time to read a page of legal text.
-This app puts the three things that matter — your rights, exact phrases
-to say, and what to do after — behind one tap, in large type, usable
-one-handed and under stress.
-
-## Core features
-
-- **Scenario-first navigation**: Police stop / ICE / Checkpoint, each one tap from the home screen.
-- **State-aware notes**: a short, state-specific addendum on identification requirements (currently CA, TX, NY, FL, IL, plus a general fallback).
-- **Scripted phrases**: short, exact sentences to say out loud, in large type.
-- **Record & alert**: one button starts an audio recording (saved locally as a downloadable file) and — if an emergency contact is saved — opens a pre-filled text message with a live location link.
-- **Installable, works offline**: a service worker caches the whole app shell, so it works with no signal after the first load.
-
-## Tech stack
-
-- Vanilla HTML / CSS / JavaScript — no framework, no build step, so it loads instantly and installs as a PWA on any phone.
-- Browser APIs: `MediaRecorder`, `navigator.geolocation`, `sms:` URI scheme for the alert flow, `localStorage` for on-device contact storage, Service Worker + Web App Manifest for offline/installable behavior.
-- No backend and no third-party data collection — everything stays on-device.
-
-## AI tool disclosure
-
-Built during the hackathon with assistance from Claude (Anthropic) for
-scaffolding the app structure, writing the plain-language rights content,
-and the visual design system. All legal content is general information
-written from well-established constitutional principles, not copied from
-any single source — it is not legal advice, and the app says so on-screen.
-
-## Running it
-
-### Live Demo
-[RightNOW](https://rightnow-2a4e7mo6g-swastika14.vercel.app/)
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/2e9e0f47-44eb-48cb-9250-e65826552612" />
 
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/5702c046-f553-4698-a9be-b1c34110a97d" />
+## 🚀 Live Demo
 
+[**Try RightNOW →**](https://rightnow-2a4e7mo6g-swastika14.vercel.app/)
 
-###What's next
+## 💡 The Problem
 
-- Expand state coverage and verify each state note against current law with a legal advisor before any real-world use.
-- Add a language switcher (Spanish is the clear next priority).
-- Add a "share my rights" flow so someone can quickly text this page to a friend or family member in another state.
+Most know-your-rights resources are presented as dense PDFs, lengthy articles, or legal documents.
+
+In an actual encounter, someone may not have the time or focus to search through pages of information.
+
+**RightNOW** takes a scenario-first approach, putting three key things within quick reach:
+
+* **Your rights**
+* **What you can say**
+* **What you can do next**
+
+The interface is designed to be simple, fast, readable, and usable with one hand — even under stress.
+
+## ✨ Core Features
+
+### Scenario-First Guidance
+
+Choose the situation you're dealing with instead of searching through a large collection of legal information.
+
+* Police Stop
+* ICE / Immigration Encounter
+* Checkpoint
+
+### 📍 State-Aware Information
+
+Provides short state-specific notes for identification requirements, with coverage for:
+
+* California
+* Texas
+* New York
+* Florida
+* Illinois
+* General fallback guidance
+
+### 🗣️ Scripted Phrases
+
+Provides short, practical phrases that users can refer to and say out loud without having to remember complicated legal terminology.
+
+### 🎙️ Record & Alert
+
+A built-in recording feature allows users to start an audio recording locally.
+
+If an emergency contact has been saved, the alert flow can also open a pre-filled text message containing a location link.
+
+### 📱 Offline-Capable & Installable
+
+A service worker caches the application shell so essential parts of the app can remain accessible after the initial load, even when connectivity is limited.
+
+The app can also be installed as a Progressive Web App.
+
+## 🛠️ Tech Stack
+
+* **HTML5**
+* **CSS3**
+* **Vanilla JavaScript**
+* **Progressive Web App (PWA)**
+* **Service Worker**
+* **Web App Manifest**
+* **LocalStorage**
+* **MediaRecorder API**
+* **Geolocation API**
+* **SMS URI scheme**
+
+There is **no framework, build step, backend, or database**. The application runs primarily on the user's device.
+
+## 🔐 Privacy
+
+RightNOW is designed with a local-first approach.
+
+* Emergency contact information is stored locally in the browser.
+* Audio recordings are created locally on the device.
+* Location is accessed through the browser only when the user uses the relevant feature.
+* There is no application backend collecting user data.
+
+## 🤖 AI Tool Disclosure
+
+The project was reviewed and adapted by me throughout development.
+
+The legal information presented by RightNOW is intended as **general educational information, not personalized legal advice**.
+
+## 📚 What We Learned
+
+Building RightNOW taught me that providing more information does not necessarily make an application more useful.
+
+The main challenge was deciding **what a user needs to see first** when they may be stressed and have very little time.
+
+This led us to focus heavily on information hierarchy, readable typography, minimal navigation, one-handed interaction, and scenario-based flows.
+
+## 🔨 Challenges
+
+Our biggest challenge was balancing **simplicity with completeness**.
+
+Rights and procedures can vary depending on the situation and jurisdiction, so we had to avoid presenting every situation as though the same rules apply everywhere.
+
+We also had to prioritize the core experience within a **24-hour hackathon**, focusing first on the main user journey before adding supporting functionality.
+
+## 🔮 What's Next
+
+* Expand state coverage and verify state-specific information with legal professionals.
+* Add multilingual support, with Spanish as an initial priority.
+* Add a "Share My Rights" flow so users can quickly send relevant information to a friend or family member.
+* Continue improving offline capabilities and accessibility.
+
+## ⚠️ Disclaimer
+
+RightNOW is an educational information tool and **does not provide legal advice or replace a qualified attorney**.
+
+Information can vary by jurisdiction and circumstances. Users should consult a qualified legal professional for advice about their specific situation.
+
+---
+
+Built with ❤️ during **HackDevengers 2.0**.
