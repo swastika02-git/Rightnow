@@ -36,7 +36,16 @@ any single source — it is not legal advice, and the app says so on-screen.
 
 ## Running it
 
-rightnow-2a4e7mo6g-swastika14.vercel.app
+### Live Demo
+[RightNOW](https://rightnow-2a4e7mo6g-swastika14.vercel.app/)
+
+### Run Locally
+```bash
+git clone https://github.com/swastika02-git/Rightnow.git
+cd Rightnow
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/5702c046-f553-4698-a9be-b1c34110a97d" />
+
 
 ## What's next
 
