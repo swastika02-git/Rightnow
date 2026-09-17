@@ -104,7 +104,7 @@ Our biggest challenge was balancing **simplicity with completeness**.
 
 Rights and procedures can vary depending on the situation and jurisdiction, so we had to avoid presenting every situation as though the same rules apply everywhere.
 
-We also had to prioritize the core experience within a **24-hour hackathon**, focusing first on the main user journey before adding supporting functionality.
+
 
 ## 🔮 What's Next
 
@@ -121,4 +121,4 @@ Information can vary by jurisdiction and circumstances. Users should consult a q
 
 ---
 
-Built with ❤️ during **HackDevengers 2.0**.
+Built with ❤️ 
