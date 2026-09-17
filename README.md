@@ -36,14 +36,7 @@ any single source — it is not legal advice, and the app says so on-screen.
 
 ## Running it
 
-No build step — open `index.html` in a browser, or serve the folder:
-
-```
-npx serve .
-```
-
-For the installable/offline behavior to work, it needs to be served over
-`https://` (or `localhost`) rather than opened as a raw `file://` path.
+rightnow-2a4e7mo6g-swastika14.vercel.app
 
 ## What's next
 
